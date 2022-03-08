@@ -49,7 +49,7 @@ body {
   background: rgb(40, 31, 53);
   background: linear-gradient(to right, rgb(40, 31, 53), rgb(61, 46, 83));
   color: rgb(235, 235, 235);
-  font-family: "Architects Daughter", cursive;
+  font-family: "Roboto", cursive;
 }
 
 h1 {
@@ -109,7 +109,7 @@ h2 {
   justify-content: center;
 
   &:hover {
-    border-color: #e36bae;
+    border-color: #12e812;
   }
 }
 
@@ -120,6 +120,7 @@ h2 {
   width: 100%;
   align-items: center;
   justify-content: start;
+  color: #12e812;
 }
 
 .name {
