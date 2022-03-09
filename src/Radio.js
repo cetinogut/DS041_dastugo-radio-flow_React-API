@@ -7,29 +7,35 @@ import defaultImage from "./radio.jpg";
 import ReactTooltip from 'react-tooltip';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCoffee } from '@fortawesome/free-solid-svg-icons'
-import { faLink } from '@fortawesome/free-solid-svg-icons'
+//import { faCoffee } from '@fortawesome/free-solid-svg-icons'
+//import { faLink } from '@fortawesome/free-solid-svg-icons'
 import { faCaretRight } from '@fortawesome/free-solid-svg-icons'
 
 
 
 export default function Radio() {
   const [stations, setStations] = useState();
+  //const [stationSingle, setStationSingle] = useState();
   const [stationFilter, setStationFilter] = useState("all");
-  const [countryFilter, setCountryFilter] = useState("US");
-
+  const [countryFilter, setCountryFilter] = useState("all");
+  const [favoriteFilter, setFavoriteFilter] = useState("slowturk");
 
 
   useEffect(() => {
-    setupApi(stationFilter, countryFilter).then((data) => {
+    radioApiSetup(stationFilter, countryFilter).then((data) => {
       setStations(data);
     });
   }, [stationFilter, countryFilter]);
 
-  const setupApi = async (stationFilter, countryFilter) => {
-    const api = new RadioBrowserApi(fetch.bind(window), "My Radio App");
+ /*  useEffect(() => {
+    radioApiSetupFavorite(favoriteFilter).then((data) => {
+      setStationSingle(data);
+    });
+  }, []); */
 
-    const stations = await api
+  const radioApiSetup = async (stationFilter, countryFilter) => {
+    const radioApi = new RadioBrowserApi(fetch.bind(window), "Dastugo Radio Flow");
+    const stations = await radioApi
       .searchStations({
         countryCode: countryFilter,
         //language: "english",
@@ -39,9 +45,28 @@ export default function Radio() {
       .then((data) => {
         return data;
       });
-
+      console.log("stationss" + stations)
     return stations;
   };
+
+  /* const radioApiSetupFavorite = async (favoriteFilter) => {
+    console.log(favoriteFilter);
+    const radioApi = new RadioBrowserApi(fetch.bind(window), "Dastugo Radio Flow");
+    const stationSingle = await radioApi
+      .searchStations({
+        countryCode: "TR",
+        //language: "english",
+        //tag: "",
+        name: favoriteFilter,
+        //limit: 30
+      })
+      .then((data) => {
+        return data;
+      });
+      console.log("stationSingle:" + stationSingle)
+    return stationSingle;
+  };
+ */
 
   const filters = [
     "all",
@@ -57,7 +82,9 @@ export default function Radio() {
     "rock"
   ];
 
-  const countries = [ "US", "TR", "DE", "FR", "GB"]
+  const countries = [ "all", "US", "TR", "DE", "FR", "GB"]
+
+  /* const favorites = [ "Slowturk", "KafaRadya", "fenomen"] */
 
   const setDefaultSrc = (event) => {
     event.target.src = defaultImage;
@@ -92,6 +119,18 @@ export default function Radio() {
           </span>
         ))}
       </div>
+
+     {/*  <div className="filters">
+        {favorites.map((favorite, index) => (
+          <span
+            key={index}
+            className={favoriteFilter === favorite ? "selected" : ""}
+            onClick={() => setFavoriteFilter(favorite) }
+          >
+            {favorite}
+          </span>
+        ))}
+      </div> */}
       
 
       <div className="stations">
